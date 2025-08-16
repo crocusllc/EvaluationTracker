@@ -3,13 +3,6 @@
 // The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 // See the LICENSE and NOTICES files in the project root for more information.
 
-using eppeta.webapi.Account.Data;
-using eppeta.webapi.Evaluations.Data;
-using eppeta.webapi.Identity.Data;
-using eppeta.webapi.Identity.Models;
-using eppeta.webapi.Infrastructure;
-using eppeta.webapi.Service;
-using eppeta.webapi.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +11,14 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Quartz;
 using Serilog;
+
+using eppeta.webapi.Account.Data;
+using eppeta.webapi.Evaluations.Data;
+using eppeta.webapi.Identity.Data;
+using eppeta.webapi.Identity.Models;
+using eppeta.webapi.Infrastructure;
+using eppeta.webapi.Service;
+using eppeta.webapi.Swagger;
 
 namespace eppeta.webapi;
 
@@ -66,8 +67,10 @@ internal class Program
             // Sync ODS Assets
             _ = builder.Services.AddScoped<SyncOdsAssets>();
             _ = builder.Services.AddSingleton<PeriodicHostedSyncOdsAssetsService>();
-            _ = builder.Services.AddHostedService(
-                provider => provider.GetRequiredService<PeriodicHostedSyncOdsAssetsService>());
+            _ = builder.Services.AddHostedService(provider => provider.GetRequiredService<PeriodicHostedSyncOdsAssetsService>());
+
+            _ = builder.Services.AddSingleton<ODSToOITBackgroundService>();
+            _ = builder.Services.AddHostedService<ODSToOITBackgroundService>(provider => provider.GetRequiredService<ODSToOITBackgroundService>());
 
             var app = builder.Build();
 

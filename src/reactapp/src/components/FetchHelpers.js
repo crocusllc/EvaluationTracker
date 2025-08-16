@@ -9,7 +9,8 @@ import { getToken, validateAuthenticationToken } from "../components/TokenHelper
 
 // TODO: replace hard-coded with some sort of runtime setting
 // Will be fixed in EPPETA-19.
-const BaseUrl = "https://localhost:7065";
+//const BaseUrl = "https://localhost:7065";
+const BaseUrl = "https://localhost:44390"
 
 const modify = async (verb, route, values) => {
   if (!route.startsWith("/")) {
